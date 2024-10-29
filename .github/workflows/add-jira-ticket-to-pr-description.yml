@@ -15,12 +15,12 @@ jobs:
         uses: tmelliottjr/extract-regex-action@v1.5.0
         id: jira_ticket
         with:
-          regex: '([a-zA-Z]{3,}-[0-9]{1,})'
+          regex: '[a-zA-Z]{3,}-[0-9]{1,}'
           input: ${{ github.event.pull_request.head.ref }}
       - name: Update PR Description
         uses: nefrob/pr-description@v1.2.0
         with:
           content: |
-            ${{ steps.jira_ticket.outputs.resultString }}
+            ${{ steps.jira_ticket.outputs.resultString }}\
             ${{ github.event.pull_request.body }}
           token: ${{ secrets.GITHUB_TOKEN }}
