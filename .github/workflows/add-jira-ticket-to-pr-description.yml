@@ -1,0 +1,38 @@
+name: Add Jira Ticket to PR Description
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Check body has jira ticket
+        uses: tmelliottjr/extract-regex-action@v1.5.0
+        id: check_body
+        with:
+          regex: '[a-zA-Z]{3,}-[0-9]{1,}'
+          input: ${{ github.event.pull_request.body }}
+      - name: Extract jira ticket from base branch
+        if: ${{ steps.check_body.outputs.resultString == '' }}
+        uses: tmelliottjr/extract-regex-action@v1.5.0
+        id: jira_ticket
+        with:
+          regex: '[a-zA-Z]{3,}-[0-9]{1,}'
+          input: ${{ github.event.pull_request.head.ref }}
+      - name: Update PR Description
+        if: ${{ steps.check_body.outputs.resultString == '' }}
+        uses: nefrob/pr-description@v1.2.0
+        with:
+          content: |
+            ${{ steps.jira_ticket.outputs.resultString }}
+            
+            ${{ github.event.pull_request.body }}
+          regex: ".*"
+          regexFlags: s
+          token: ${{ secrets.GITHUB_TOKEN }}
