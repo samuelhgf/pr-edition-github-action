@@ -15,7 +15,7 @@ jobs:
         id: jira_ticket
         with:
           regex: '([a-zA-Z]{3,}-[0-9]{1,})'
-          input: ${{ github.event.pull_request.body }}
+          input: ${{ github.event.pull_request.head.ref }}
       - name: Update PR Description
         uses: nefrob/pr-description@v1.2.0
         with:
