@@ -23,4 +23,6 @@ jobs:
           content: |
             ${{ steps.jira_ticket.outputs.resultString }}\
             ${{ github.event.pull_request.body }}
+          regex: ".*"
+          regexFlags: s
           token: ${{ secrets.GITHUB_TOKEN }}
