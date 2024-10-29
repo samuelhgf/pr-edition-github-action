@@ -21,14 +21,14 @@ jobs:
           regex: '[a-zA-Z]{3,}-[0-9]{1,}'
           input: ${{ github.event.pull_request.body }}
       - name: Extract jira ticket from base branch
-        if: ${{ steps.jira_ticket.outputs.resultString == '' }}
+        if: ${{ steps.check_body.outputs.resultString == '' }}
         uses: tmelliottjr/extract-regex-action@v1.5.0
         id: jira_ticket
         with:
           regex: '[a-zA-Z]{3,}-[0-9]{1,}'
           input: ${{ github.event.pull_request.head.ref }}
       - name: Update PR Description
-        if: ${{ steps.jira_ticket.outputs.resultString == '' }}
+        if: ${{ steps.check_body.outputs.resultString == '' }}
         uses: nefrob/pr-description@v1.2.0
         with:
           content: |
