@@ -7,7 +7,7 @@ on:
       - edited
 
 jobs:
-  jira_ticket_on_description:
+  job:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
