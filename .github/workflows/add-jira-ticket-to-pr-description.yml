@@ -1,7 +1,10 @@
+name: Add Jira Ticket to PR Description
+
 on:
   pull_request:
     types:
       - opened
+      - edited
 
 jobs:
   jira_ticket_on_description:
@@ -21,7 +24,8 @@ jobs:
         uses: nefrob/pr-description@v1.2.0
         with:
           content: |
-            ${{ steps.jira_ticket.outputs.resultString }}\
+            ${{ steps.jira_ticket.outputs.resultString }}
+            
             ${{ github.event.pull_request.body }}
           regex: ".*"
           regexFlags: s
